@@ -1,0 +1,484 @@
+<title>NGB Edu</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap">
+<style>
+:root{
+  --bg:#F8FAFC;--surface:#fff;--raised:#F1F5F9;--border:#E2E8F0;--border-light:#F1F5F9;
+  --text:#0F172A;--muted:#64748B;--dim:#94A3B8;
+  --accent:#7C3AED;--accent-l:#F5F3FF;--accent-d:rgba(124,58,237,.12);
+  --green:#059669;--green-l:#ECFDF5;
+  --red:#DC2626;--red-l:#FEF2F2;
+  --warm:#D97706;--warm-l:#FFFBEB;
+  --blue:#2563EB;--blue-l:#EFF6FF;
+  --sw:220px;--th:52px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Inter',system-ui,sans-serif;font-size:14px;color:var(--text);background:var(--bg);overflow:hidden}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:var(--sw);min-width:var(--sw);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.logo{padding:14px 16px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.logo-box{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:13px;flex-shrink:0}
+.logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}.logo-text span{color:var(--accent)}
+.nav-group{padding:6px 0;border-bottom:1px solid var(--border-light)}
+.nav-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:4px 16px 2px}
+.nav-btn{display:flex;align-items:center;gap:8px;padding:7px 16px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;border:none;background:none;width:100%;text-align:left;transition:background .1s,color .1s}
+.nav-btn:hover{background:var(--raised);color:var(--text)}
+.nav-btn.active{background:var(--accent-l);color:var(--accent)}
+.nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 6px;min-width:18px;text-align:center}
+.nav-badge.warn{background:var(--warm)}.nav-badge.red{background:var(--red)}.nav-badge.gr{background:var(--green)}
+.sidebar-foot{margin-top:auto;padding:12px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.plan-chip{margin-left:auto;font-size:10px;font-weight:700;background:var(--accent-l);color:var(--accent);padding:2px 7px;border-radius:10px}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:var(--th);border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:700;flex:1}
+.topbar-sub{font-size:12px;color:var(--muted)}
+.page{flex:1;overflow-y:auto;padding:20px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .1s}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn-primary:hover{background:#6D28D9}
+.btn-secondary{background:var(--surface);color:var(--text);border-color:var(--border)}.btn-secondary:hover{background:var(--raised)}
+.btn-ghost{background:transparent;color:var(--muted);border-color:transparent}.btn-ghost:hover{background:var(--raised);color:var(--text)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;flex-shrink:0}
+.av-p{background:var(--accent)}.av-g{background:var(--green)}.av-b{background:var(--blue)}.av-w{background:var(--warm)}.av-m{background:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.stat-label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.stat-val{font-size:24px;font-weight:700;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.stat-sub{font-size:12px;color:var(--green)}.stat-sub.neg{color:var(--red)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.ch{padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:13px;font-weight:600}
+.cb{padding:14px 16px}
+.tc{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.tt{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.tt-title{font-size:13px;font-weight:600}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;padding:8px 12px;font-size:11px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;background:var(--raised);text-transform:uppercase;letter-spacing:.05em}
+tbody tr{border-bottom:1px solid var(--border-light)}
+tbody tr:last-child{border-bottom:none}
+tbody td{padding:10px 12px;vertical-align:middle}
+tbody tr:hover{background:var(--raised)}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.bg{background:var(--green-l);color:var(--green)}
+.br{background:var(--red-l);color:var(--red)}
+.bw{background:var(--warm-l);color:var(--warm)}
+.ba{background:var(--accent-l);color:var(--accent)}
+.bb{background:var(--blue-l);color:var(--blue)}
+.bz{background:var(--raised);color:var(--muted)}
+.filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.fi{flex:1;min-width:160px;padding:7px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--surface);color:var(--text);outline:none}
+.fi:focus{border-color:var(--accent)}
+select.fi{cursor:pointer}
+.alert-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:6px;margin-bottom:6px;border:1px solid var(--border);background:var(--surface)}
+.adot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.adot.r{background:var(--red)}.adot.w{background:var(--warm)}.adot.g{background:var(--green)}.adot.b{background:var(--blue)}
+.a-title{font-size:13px;font-weight:500}.a-sub{font-size:11px;color:var(--muted)}
+.pw{background:var(--border);border-radius:4px;height:6px;overflow:hidden}
+.pb{height:100%;border-radius:4px;background:var(--accent);transition:width .3s}
+.pb.g{background:var(--green)}.pb.w{background:var(--warm)}.pb.b{background:var(--blue)}
+.tabs{display:flex;gap:2px;background:var(--raised);border-radius:8px;padding:3px;width:fit-content;margin-bottom:16px}
+.tab{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);border:none;background:none}
+.tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-hd{text-align:center;font-size:11px;font-weight:600;color:var(--muted);padding:4px}
+.cal-day{min-height:68px;padding:4px;border:1px solid var(--border-light);border-radius:4px;background:var(--surface)}
+.cal-dn{font-size:11px;font-weight:500;color:var(--muted);margin-bottom:3px}
+.cal-day.today{border-color:var(--accent)}.cal-day.today .cal-dn{color:var(--accent);font-weight:700}
+.cal-ev{font-size:10px;padding:2px 5px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--accent-l);color:var(--accent);font-weight:500}
+.cal-ev.g{background:var(--green-l);color:var(--green)}.cal-ev.b{background:var(--blue-l);color:var(--blue)}.cal-ev.w{background:var(--warm-l);color:var(--warm)}.cal-ev.r{background:var(--red-l);color:var(--red)}
+.bar-chart{display:flex;gap:8px;align-items:flex-end;height:90px;padding-top:8px}
+.bw2{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar{width:100%;border-radius:4px 4px 0 0;background:var(--accent);min-height:4px}
+.bar.g{background:var(--green)}.bar.w{background:var(--warm)}.bar.b{background:var(--blue)}
+.bl{font-size:10px;color:var(--muted);text-align:center}.bv{font-size:10px;font-weight:600;color:var(--text)}
+.sp{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;margin:1px}
+.sm{background:#EFF6FF;color:#2563EB}.sp2{background:#F0FDF4;color:#16A34A}.ss{background:#F0FDF4;color:#059669}.sf{background:#FFF7ED;color:#EA580C}.sa{background:#FDF4FF;color:#9333EA}.se{background:#F0F9FF;color:#0284C7}
+.tl-item{display:flex;gap:12px;padding-bottom:14px;position:relative}
+.tl-item::before{content:'';position:absolute;left:11px;top:22px;width:2px;height:calc(100% - 10px);background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;background:var(--accent-l);color:var(--accent);position:relative;z-index:1}
+.tl-c{flex:1;padding-top:2px}.tl-t{font-size:13px;font-weight:500}.tl-s{font-size:11px;color:var(--muted);margin-top:2px}
+.chat-msgs{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;max-height:280px;overflow-y:auto}
+.chat-msg{display:flex;gap:8px}.chat-msg.u{flex-direction:row-reverse}
+.bubble{max-width:75%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.5;background:var(--raised);color:var(--text)}
+.chat-msg.u .bubble{background:var(--accent);color:#fff}
+.chat-in-row{display:flex;gap:8px}
+.chat-in{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--text);outline:none}
+.chat-in:focus{border-color:var(--accent)}
+.ratt-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:600;background:var(--blue-l);color:var(--blue)}
+.p-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.p-dot.present{background:var(--green)}.p-dot.absent{background:var(--red)}.p-dot.late{background:var(--warm)}.p-dot.rattrapage{background:var(--blue)}
+hr.div{border:none;border-top:1px solid var(--border);margin:14px 0}
+@media(max-width:768px){.sidebar{display:none}.stats{grid-template-columns:1fr 1fr}.g2,.g3{grid-template-columns:1fr}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}}
+</style>
+
+<div class="app">
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-box">N</div>
+    <div><div class="logo-text">NGB <span>Edu</span></div></div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Direction</div>
+    <button class="nav-btn active" onclick="go('dash',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Tableau de bord
+    </button>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Gestion</div>
+    <button class="nav-btn" onclick="go('eleves',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Eleves
+      <span class="nav-badge">34</span>
+    </button>
+    <button class="nav-btn" onclick="go('profs',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/><path d="M9 11l-2 9 5-3 5 3-2-9"/></svg>
+      Professeurs
+      <span class="nav-badge gr">8</span>
+    </button>
+    <button class="nav-btn" onclick="go('planning',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Planning
+    </button>
+    <button class="nav-btn" onclick="go('presences',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Presences
+    </button>
+    <button class="nav-btn" onclick="go('rattrapages',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Rattrapages
+      <span class="nav-badge" style="background:var(--blue)">3</span>
+    </button>
+    <button class="nav-btn" onclick="go('qr',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3M18 13h3M13 21v-3M13 16h-3M13 13h-3v3"/></svg>
+      QR Code
+    </button>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Finance</div>
+    <button class="nav-btn" onclick="go('paiements',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Paiements + Impayes
+      <span class="nav-badge warn">5</span>
+    </button>
+    <button class="nav-btn" onclick="go('historique',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Historique paiements
+    </button>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Rapports & IA</div>
+    <button class="nav-btn" onclick="go('rapports',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Rapports avances
+    </button>
+    <button class="nav-btn" onclick="go('ia',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Assistant IA
+    </button>
+  </div>
+  <div class="sidebar-foot">
+    <div class="av av-p">KA</div>
+    <div>
+      <div style="font-size:12px;font-weight:600">Khalid Alaoui</div>
+      <div style="font-size:11px;color:var(--muted)">Directeur</div>
+    </div>
+    <div class="plan-chip">PRO</div>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="pg-title">Tableau de bord</div>
+    <div class="topbar-sub" id="pg-sub">Lundi 13 octobre 2026</div>
+    <button class="btn btn-primary btn-sm" id="pg-action" onclick="pgAction()">+ Nouveau</button>
+  </div>
+  <div class="page" id="page-content"></div>
+</div>
+</div>
+
+<script>
+var D = {
+  eleves:[
+    {id:1,nom:'Youssef Bennani',niveau:'2 BAC Sc.',mats:['Math','Physique','SVT'],prof:'Chakir',parent:'Abdelkader Bennani',tel:'0661234567',statut:'actif',paiement:'ok',mens:1200,moy:14.5},
+    {id:2,nom:'Salma Idrissi',niveau:'1 BAC',mats:['Math','Français'],prof:'Tahiri',parent:'Fatima Idrissi',tel:'0662345678',statut:'actif',paiement:'retard',mens:900,moy:16.2},
+    {id:3,nom:'Amine Zouaoui',niveau:'3eme Col.',mats:['Math','Physique','Arabe'],prof:'Chakir',parent:'Hassan Zouaoui',tel:'0663456789',statut:'actif',paiement:'ok',mens:800,moy:12.0},
+    {id:4,nom:'Nadia Ouali',niveau:'Terminale',mats:['Math','SVT'],prof:'Tahiri',parent:'Mohammed Ouali',tel:'0664567890',statut:'actif',paiement:'ok',mens:1100,moy:17.5},
+    {id:5,nom:'Karima Benali',niveau:'2 BAC Let.',mats:['Arabe','Français','Anglais'],prof:'Alami',parent:'Rachid Benali',tel:'0665678901',statut:'actif',paiement:'retard',mens:750,moy:13.8},
+    {id:6,nom:'Omar El Fassi',niveau:'1ere BAC',mats:['Math','Physique'],prof:'Chakir',parent:'Youssef El Fassi',tel:'0666789012',statut:'actif',paiement:'ok',mens:950,moy:11.5},
+    {id:7,nom:'Zineb Chraibi',niveau:'3eme Col.',mats:['Math','Français','Anglais'],prof:'Alami',parent:'Samir Chraibi',tel:'0667890123',statut:'actif',paiement:'impayé',mens:850,moy:15.0},
+    {id:8,nom:'Rida Tazi',niveau:'2 BAC Sc.',mats:['Math','Physique','SVT'],prof:'Chakir',parent:'Karim Tazi',tel:'0668901234',statut:'actif',paiement:'ok',mens:1200,moy:18.0},
+    {id:9,nom:'Hiba Cherkaoui',niveau:'Terminale',mats:['Math','Physique'],prof:'Tahiri',parent:'Nabil Cherkaoui',tel:'0669012345',statut:'actif',paiement:'ok',mens:1000,moy:16.8},
+    {id:10,nom:'Mehdi Lahlou',niveau:'1 BAC',mats:['SVT','Français'],prof:'Tahiri',parent:'Aicha Lahlou',tel:'0661123456',statut:'inactif',paiement:'impayé',mens:800,moy:9.5},
+  ],
+  profs:[
+    {id:1,nom:'M. Rachid Chakir',mats:['Math','Physique'],niv:'Col. & Lycee',h:28,tarif:80,eleves:12},
+    {id:2,nom:'Mme Sanaa Tahiri',mats:['SVT','Français'],niv:'Lycee & Term.',h:22,tarif:75,eleves:9},
+    {id:3,nom:'M. Karim Alami',mats:['Arabe','Anglais'],niv:'Col. & Lycee',h:20,tarif:70,eleves:8},
+    {id:4,nom:'Mme Layla Bensaid',mats:['Math','PC'],niv:'Term. & Prepa',h:18,tarif:90,eleves:6},
+    {id:5,nom:'M. Nabil Fassi',mats:['Anglais','Français'],niv:'College',h:16,tarif:65,eleves:5},
+  ],
+  seances:[
+    {h:'09h00',dur:'1h30',eleve:'Youssef Bennani',prof:'M. Chakir',mat:'Math',salle:'A',presence:'present'},
+    {h:'10h30',dur:'2h00',eleve:'Nadia Ouali',prof:'Mme Tahiri',mat:'SVT',salle:'B',presence:'present'},
+    {h:'14h00',dur:'1h30',eleve:'Amine Zouaoui',prof:'M. Chakir',mat:'Physique',salle:'A',presence:'absent'},
+    {h:'15h30',dur:'1h00',eleve:'Karima Benali',prof:'M. Alami',mat:'Arabe',salle:'C',presence:'late'},
+    {h:'16h30',dur:'2h00',eleve:'Rida Tazi',prof:'M. Chakir',mat:'Math',salle:'A',presence:'present'},
+    {h:'17h00',dur:'1h30',eleve:'Zineb Chraibi',prof:'M. Alami',mat:'Anglais',salle:'C',presence:'rattrapage'},
+  ],
+  rattrapages:[
+    {id:1,eleve:'Amine Zouaoui',mat:'Physique',prof:'M. Chakir',date_abs:'12/10/2026',date_ratt:'15/10/2026',h:'14h00',dur:'1h30',statut:'planifie'},
+    {id:2,eleve:'Salma Idrissi',mat:'Français',prof:'Mme Tahiri',date_abs:'10/10/2026',date_ratt:'14/10/2026',h:'10h00',dur:'1h00',statut:'planifie'},
+    {id:3,eleve:'Mehdi Lahlou',mat:'SVT',prof:'Mme Tahiri',date_abs:'08/10/2026',date_ratt:'',h:'',dur:'',statut:'non planifie'},
+    {id:4,eleve:'Hiba Cherkaoui',mat:'Math',prof:'M. Chakir',date_abs:'06/10/2026',date_ratt:'09/10/2026',h:'09h00',dur:'1h30',statut:'realise'},
+  ],
+  paiements:[
+    {eleve:'Youssef Bennani',mois:'Octobre 2026',montant:1200,statut:'paye',date:'01/10/2026',mode:'Virement'},
+    {eleve:'Salma Idrissi',mois:'Octobre 2026',montant:900,statut:'retard',date:'-',mode:'-'},
+    {eleve:'Amine Zouaoui',mois:'Octobre 2026',montant:800,statut:'paye',date:'03/10/2026',mode:'Especes'},
+    {eleve:'Nadia Ouali',mois:'Octobre 2026',montant:1100,statut:'paye',date:'01/10/2026',mode:'Virement'},
+    {eleve:'Karima Benali',mois:'Octobre 2026',montant:750,statut:'retard',date:'-',mode:'-'},
+    {eleve:'Omar El Fassi',mois:'Octobre 2026',montant:950,statut:'paye',date:'05/10/2026',mode:'Especes'},
+    {eleve:'Zineb Chraibi',mois:'Octobre 2026',montant:850,statut:'impaye',date:'-',mode:'-'},
+    {eleve:'Rida Tazi',mois:'Octobre 2026',montant:1200,statut:'paye',date:'02/10/2026',mode:'Virement'},
+    {eleve:'Hiba Cherkaoui',mois:'Octobre 2026',montant:1000,statut:'paye',date:'04/10/2026',mode:'Carte'},
+    {eleve:'Mehdi Lahlou',mois:'Octobre 2026',montant:800,statut:'impaye',date:'-',mode:'-'},
+  ],
+  historique:[
+    {eleve:'Youssef Bennani',mois:'Octobre 2026',montant:1200,statut:'paye',date:'01/10/2026',mode:'Virement'},
+    {eleve:'Youssef Bennani',mois:'Septembre 2026',montant:1200,statut:'paye',date:'02/09/2026',mode:'Virement'},
+    {eleve:'Youssef Bennani',mois:'Aout 2026',montant:1200,statut:'paye',date:'01/08/2026',mode:'Virement'},
+    {eleve:'Salma Idrissi',mois:'Septembre 2026',montant:900,statut:'paye',date:'05/09/2026',mode:'Especes'},
+    {eleve:'Salma Idrissi',mois:'Aout 2026',montant:900,statut:'paye',date:'02/08/2026',mode:'Especes'},
+    {eleve:'Rida Tazi',mois:'Octobre 2026',montant:1200,statut:'paye',date:'02/10/2026',mode:'Virement'},
+    {eleve:'Rida Tazi',mois:'Septembre 2026',montant:1200,statut:'paye',date:'01/09/2026',mode:'Virement'},
+    {eleve:'Nadia Ouali',mois:'Octobre 2026',montant:1100,statut:'paye',date:'01/10/2026',mode:'Virement'},
+    {eleve:'Hiba Cherkaoui',mois:'Octobre 2026',montant:1000,statut:'paye',date:'04/10/2026',mode:'Carte'},
+    {eleve:'Zineb Chraibi',mois:'Septembre 2026',montant:850,statut:'paye',date:'04/09/2026',mode:'Especes'},
+    {eleve:'Karima Benali',mois:'Septembre 2026',montant:750,statut:'paye',date:'02/09/2026',mode:'Especes'},
+    {eleve:'Omar El Fassi',mois:'Septembre 2026',montant:950,statut:'paye',date:'01/09/2026',mode:'Especes'},
+    {eleve:'Amine Zouaoui',mois:'Septembre 2026',montant:800,statut:'paye',date:'03/09/2026',mode:'Especes'},
+  ]
+};
+
+var MC = {'Math':'sm','Physique':'sp2','SVT':'ss','Français':'sf','Arabe':'sa','Anglais':'se','PC':'sp2'};
+function pill(m){ return '<span class="sp '+(MC[m]||'sm')+'">'+m+'</span>'; }
+function sBadge(s){
+  if(s==='actif'||s==='paye'||s==='realise') return '<span class="badge bg">'+s+'</span>';
+  if(s==='retard') return '<span class="badge bw">Retard</span>';
+  if(s==='impaye') return '<span class="badge br">Impaye</span>';
+  if(s==='inactif') return '<span class="badge bz">Inactif</span>';
+  if(s==='planifie') return '<span class="badge bb">Planifie</span>';
+  if(s==='non planifie') return '<span class="badge bw">Non planifie</span>';
+  if(s==='present') return '<span class="badge bg">Present</span>';
+  if(s==='absent') return '<span class="badge br">Absent</span>';
+  if(s==='late') return '<span class="badge bw">Retard</span>';
+  if(s==='rattrapage') return '<span class="badge bb">Rattrapage</span>';
+  return '<span class="badge bz">'+s+'</span>';
+}
+function ini(n){ return n.replace('M. ','').replace('Mme ','').split(' ').map(function(x){return x[0]||'';}).join('').slice(0,2).toUpperCase(); }
+
+var PAGES = {};
+
+PAGES.dash = {title:'Tableau de bord',sub:'Lundi 13 octobre 2026',action:'+ Ajouter eleve',html:function(){
+  var enc = D.paiements.filter(function(p){return p.statut==='paye';}).reduce(function(a,p){return a+p.montant;},0);
+  var rows = D.seances.map(function(s){
+    return '<div class="tl-item"><div class="tl-dot">'+s.mat[0]+'</div><div class="tl-c"><div class="tl-t">'+s.eleve+' &mdash; <strong>'+s.mat+'</strong>'+(s.presence==='rattrapage'?' <span class="ratt-tag">Rat.</span>':'')+'</div><div class="tl-s">'+s.h+' &middot; '+s.dur+' &middot; '+s.prof+'</div></div></div>';
+  }).join('');
+  var bars = [{l:'Avr',v:19200},{l:'Mai',v:22400},{l:'Jun',v:21000},{l:'Jul',v:18500},{l:'Aou',v:20800},{l:'Sep',v:25400},{l:'Oct',v:enc}].map(function(b,i){
+    return '<div class="bw2"><div class="bv">'+Math.round(b.v/1000)+'k</div><div class="bar '+(i===6?'g':'')+'" style="height:'+Math.round(b.v/300)+'px"></div><div class="bl">'+b.l+'</div></div>';
+  }).join('');
+  var niveaux = [{l:'2 BAC Sciences',n:10,c:'var(--accent)'},{l:'1 BAC',n:8,c:'var(--blue)'},{l:'3eme Collège',n:7,c:'var(--green)'},{l:'Terminale',n:5,c:'var(--warm)'},{l:'Autres',n:4,c:'var(--dim)'}].map(function(r){
+    return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">'+r.l+'</span><span style="color:var(--muted)">'+r.n+' eleves</span></div><div class="pw"><div class="pb" style="width:'+Math.round(r.n/34*100)+'%;background:'+r.c+'"></div></div></div>';
+  }).join('');
+  return '<div class="stats"><div class="stat"><div class="stat-label">Eleves actifs</div><div class="stat-val" style="color:var(--accent)">34</div><div class="stat-sub">+3 ce mois</div></div><div class="stat"><div class="stat-label">Seances aujourd\'hui</div><div class="stat-val" style="color:var(--blue)">6</div><div class="stat-sub">47h cette semaine</div></div><div class="stat"><div class="stat-label">CA octobre</div><div class="stat-val" style="color:var(--green)">'+enc.toLocaleString()+'</div><div class="stat-sub">MAD encaisses</div></div><div class="stat"><div class="stat-label">Taux presence</div><div class="stat-val" style="color:var(--warm)">91%</div><div class="stat-sub neg">-3% vs mois dernier</div></div></div><div class="g2" style="margin-bottom:20px"><div class="card"><div class="ch"><div class="ct">Alertes</div></div><div class="cb"><div class="alert-row"><div class="adot r"></div><div><div class="a-title">Zineb Chraibi &mdash; Impaye Octobre</div><div class="a-sub">850 MAD &middot; Contact : Samir Chraibi</div></div></div><div class="alert-row"><div class="adot r"></div><div><div class="a-title">Mehdi Lahlou &mdash; Impaye Octobre</div><div class="a-sub">800 MAD &middot; Eleve inactif</div></div></div><div class="alert-row"><div class="adot w"></div><div><div class="a-title">Salma Idrissi &mdash; Retard paiement</div><div class="a-sub">900 MAD &middot; Octobre 2026</div></div></div><div class="alert-row"><div class="adot b"></div><div><div class="a-title">3 rattrapages en attente</div><div class="a-sub">Amine Zouaoui, Salma Idrissi, Mehdi Lahlou</div></div></div><div class="alert-row"><div class="adot g"></div><div><div class="a-title">Rida Tazi &mdash; Progression remarquable</div><div class="a-sub">Math +4 pts ce mois &middot; Moyenne 18/20</div></div></div></div></div><div class="card"><div class="ch"><div class="ct">Seances aujourd\'hui</div></div><div class="cb" style="padding-top:10px">'+rows+'</div></div></div><div class="g2"><div class="card"><div class="ch"><div class="ct">CA mensuel (MAD)</div></div><div class="cb"><div class="bar-chart">'+bars+'</div></div></div><div class="card"><div class="ch"><div class="ct">Repartition par niveau</div></div><div class="cb">'+niveaux+'</div></div></div>';
+}};
+
+PAGES.eleves = {title:'Eleves',sub:'34 inscrits - Plan Pro (500 max)',action:'+ Nouvel eleve',html:function(){
+  var rows = D.eleves.map(function(e){
+    return '<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av av-p" style="font-size:10px">'+ini(e.nom)+'</div><div><div style="font-weight:600">'+e.nom+'</div><div style="font-size:11px;color:var(--muted)">Moy. '+e.moy+'/20</div></div></div></td><td><span class="badge bb">'+e.niveau+'</span></td><td>'+e.mats.map(pill).join('')+'</td><td style="color:var(--muted);font-size:12px">'+e.prof+'</td><td style="font-size:12px"><div>'+e.parent+'</div><div style="color:var(--muted)">'+e.tel+'</div></td><td class="r"><strong>'+e.mens+'</strong> MAD</td><td>'+sBadge(e.paiement)+'</td><td>'+sBadge(e.statut)+'</td><td><button class="btn btn-ghost btn-sm">Voir</button></td></tr>';
+  }).join('');
+  return '<div class="filters"><input class="fi" type="text" placeholder="Rechercher..."><select class="fi" style="max-width:160px"><option>Tous niveaux</option><option>2 BAC Sc.</option><option>1 BAC</option><option>3eme Col.</option><option>Terminale</option></select><select class="fi" style="max-width:160px"><option>Tous profs</option><option>M. Chakir</option><option>Mme Tahiri</option><option>M. Alami</option></select></div><div class="tc"><div class="tt"><div class="tt-title">Tous les eleves</div><div style="display:flex;gap:8px"><span class="badge bg">30 actifs</span><span class="badge bz">4 inactifs</span></div></div><div class="tw"><table><thead><tr><th>Eleve</th><th>Niveau</th><th>Matieres</th><th>Professeur</th><th>Contact parent</th><th class="r">Mensualite</th><th>Paiement</th><th>Statut</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}};
+
+PAGES.profs = {title:'Professeurs',sub:'8 professeurs actifs',action:'+ Nouveau prof',html:function(){
+  var total = D.profs.reduce(function(a,p){return a+p.h*p.tarif;},0);
+  var rows = D.profs.map(function(p){
+    return '<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av av-g" style="font-size:10px">'+ini(p.nom)+'</div><strong>'+p.nom+'</strong></div></td><td>'+p.mats.map(pill).join('')+'</td><td style="color:var(--muted);font-size:12px">'+p.niv+'</td><td><span class="badge ba">'+p.eleves+'</span></td><td class="r"><strong>'+p.h+'h</strong></td><td class="r">'+p.tarif+' MAD</td><td class="r"><strong>'+(p.h*p.tarif).toLocaleString()+'</strong> MAD</td></tr>';
+  }).join('');
+  var bars2 = D.profs.map(function(p){
+    return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">'+p.nom+'</span><span style="color:var(--muted)">'+p.h+'h / 30h max</span></div><div class="pw"><div class="pb '+(p.h>25?'w':'')+'" style="width:'+Math.round(p.h/30*100)+'%"></div></div></div>';
+  }).join('');
+  return '<div class="stats" style="grid-template-columns:repeat(3,1fr)"><div class="stat"><div class="stat-label">Profs actifs</div><div class="stat-val" style="color:var(--accent)">8</div></div><div class="stat"><div class="stat-label">Heures/semaine</div><div class="stat-val" style="color:var(--blue)">124h</div></div><div class="stat"><div class="stat-label">Masse salariale oct.</div><div class="stat-val" style="color:var(--green)">'+total.toLocaleString()+' MAD</div></div></div><div class="tc"><div class="tt"><div class="tt-title">Equipe pedagogique</div></div><div class="tw"><table><thead><tr><th>Professeur</th><th>Matieres</th><th>Niveaux</th><th>Eleves</th><th class="r">H/sem</th><th class="r">Tarif/h</th><th class="r">Total oct.</th></tr></thead><tbody>'+rows+'</tbody></table></div></div><div class="card" style="margin-top:16px"><div class="ch"><div class="ct">Charge de travail</div></div><div class="cb">'+bars2+'</div></div>';
+}};
+
+PAGES.planning = {title:'Planning',sub:'Semaine du 13-18 octobre 2026',action:'+ Planifier seance',html:function(sub){
+  sub = sub||'semaine';
+  var calDays = [
+    {n:13,today:true,ev:[{t:'Bennani-Math',c:''},{t:'Ouali-SVT',c:'g'},{t:'Tazi-Math',c:''}]},
+    {n:14,ev:[{t:'Idrissi-Fr.',c:'b'},{t:'Zouaoui-PC',c:''}]},
+    {n:15,ev:[{t:'Cherkaoui-M',c:''},{t:'El Fassi-PC',c:''},{t:'Benali-Ar.',c:'w'}]},
+    {n:16,ev:[{t:'Tazi-SVT',c:'g'},{t:'Bennani-PC',c:''}]},
+    {n:17,ev:[{t:'Ouali-Math',c:''},{t:'Idrissi-SVT',c:'g'}]},
+    {n:18,ev:[{t:'Zouaoui-M',c:''},{t:'Chraibi-An.',c:'b'}]},
+    {n:19,ev:[]},
+  ];
+  var calHtml = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(function(d){return '<div class="cal-hd">'+d+'</div>';}).join('') +
+    calDays.map(function(d){return '<div class="cal-day'+(d.today?' today':'')+'"><div class="cal-dn">'+d.n+'</div>'+d.ev.map(function(e){return '<div class="cal-ev '+e.c+'">'+e.t+'</div>';}).join('')+'</div>';}).join('');
+  var tabsHtml = '<div class="tabs"><button class="tab '+(sub==='semaine'?'active':'')+'" onclick="go(\'planning\',null,\'semaine\')">Semaine</button><button class="tab '+(sub==='jour'?'active':'')+'" onclick="go(\'planning\',null,\'jour\')">Aujourd\'hui</button></div>';
+  if(sub==='jour'){
+    var jr = D.seances.map(function(s){return '<tr><td><strong>'+s.h+'</strong></td><td>'+s.dur+'</td><td>'+s.eleve+(s.presence==='rattrapage'?' <span class="ratt-tag">Rat.</span>':'')+'</td><td style="color:var(--muted)">'+s.prof+'</td><td>'+pill(s.mat)+'</td><td><span class="badge bz">'+s.salle+'</span></td><td>'+sBadge(s.presence)+'</td></tr>';}).join('');
+    return tabsHtml+'<div class="tc"><div class="tt"><div class="tt-title">Lundi 13 octobre 2026</div><span class="badge ba">6 seances</span></div><div class="tw"><table><thead><tr><th>Heure</th><th>Duree</th><th>Eleve</th><th>Prof</th><th>Matiere</th><th>Salle</th><th>Presence</th></tr></thead><tbody>'+jr+'</tbody></table></div></div>';
+  }
+  var wr = [
+    {j:'Lun 13',h:'09h00',e:'Youssef Bennani',p:'M. Chakir',m:'Math',s:'A',type:'Normale'},
+    {j:'Lun 13',h:'10h30',e:'Nadia Ouali',p:'Mme Tahiri',m:'SVT',s:'B',type:'Normale'},
+    {j:'Lun 13',h:'17h00',e:'Zineb Chraibi',p:'M. Alami',m:'Anglais',s:'C',type:'Rattrapage'},
+    {j:'Mar 14',h:'10h00',e:'Salma Idrissi',p:'Mme Tahiri',m:'Français',s:'C',type:'Normale'},
+    {j:'Mer 15',h:'09h00',e:'Hiba Cherkaoui',p:'Mme Tahiri',m:'Math',s:'B',type:'Normale'},
+    {j:'Mer 15',h:'14h00',e:'Amine Zouaoui',p:'M. Chakir',m:'Physique',s:'A',type:'Rattrapage'},
+    {j:'Jeu 16',h:'10h00',e:'Rida Tazi',p:'Mme Tahiri',m:'SVT',s:'B',type:'Normale'},
+    {j:'Ven 17',h:'14h00',e:'Nadia Ouali',p:'Mme Tahiri',m:'Math',s:'B',type:'Normale'},
+  ].map(function(r){return '<tr><td>'+r.j+'</td><td>'+r.h+'</td><td>'+r.e+'</td><td style="color:var(--muted)">'+r.p+'</td><td>'+pill(r.m)+'</td><td><span class="badge bz">'+r.s+'</span></td><td>'+(r.type==='Rattrapage'?'<span class="ratt-tag">Rattrapage</span>':'<span class="badge bg">Normale</span>')+'</td></tr>';}).join('');
+  return tabsHtml+'<div class="card" style="margin-bottom:16px"><div class="cb" style="padding:12px 16px"><div class="cal-grid">'+calHtml+'</div></div></div><div class="tc"><div class="tt"><div class="tt-title">Seances de la semaine</div><span class="badge ba">47 seances</span></div><div class="tw"><table><thead><tr><th>Jour</th><th>Heure</th><th>Eleve</th><th>Prof</th><th>Matiere</th><th>Salle</th><th>Type</th></tr></thead><tbody>'+wr+'</tbody></table></div></div>';
+}};
+
+PAGES.presences = {title:'Presences',sub:'Suivi presences et absences',action:'Marquer presences',html:function(sub){
+  sub=sub||'today';
+  var tabs = '<div class="tabs"><button class="tab '+(sub==='today'?'active':'')+'" onclick="go(\'presences\',null,\'today\')">Aujourd\'hui</button><button class="tab '+(sub==='stats'?'active':'')+'" onclick="go(\'presences\',null,\'stats\')">Statistiques</button></div>';
+  if(sub==='today'){
+    var rows = D.seances.map(function(s){return '<tr><td><strong>'+s.h+'</strong></td><td>'+s.eleve+'</td><td>'+pill(s.mat)+'</td><td style="color:var(--muted)">'+s.prof+'</td><td>'+sBadge(s.presence)+'</td><td>'+(s.presence==='absent'?'<button class="btn btn-sm" style="background:var(--blue-l);color:var(--blue);border:none" onclick="alert(\'Rattrapage planifie\')">Planifier ratt.</button>':'')+'</td></tr>';}).join('');
+    return tabs+'<div class="tc"><div class="tt"><div class="tt-title">Lundi 13 octobre 2026</div><div style="display:flex;gap:6px"><span class="badge bg">4 presents</span><span class="badge br">1 absent</span><span class="badge bw">1 retard</span><span class="badge bb">1 rattrapage</span></div></div><div class="tw"><table><thead><tr><th>Heure</th><th>Eleve</th><th>Matiere</th><th>Prof</th><th>Presence</th><th>Action</th></tr></thead><tbody>'+rows+'</tbody></table></div></div><div class="card" style="margin-top:16px"><div class="ch"><div class="ct">Legende</div></div><div class="cb" style="display:flex;gap:20px;flex-wrap:wrap"><div style="display:flex;align-items:center;gap:6px"><span class="p-dot present"></span><span style="font-size:12px">Present</span></div><div style="display:flex;align-items:center;gap:6px"><span class="p-dot absent"></span><span style="font-size:12px">Absent &mdash; declenche alerte rattrapage</span></div><div style="display:flex;align-items:center;gap:6px"><span class="p-dot late"></span><span style="font-size:12px">En retard</span></div><div style="display:flex;align-items:center;gap:6px"><span class="p-dot rattrapage"></span><span style="font-size:12px">Rattrapage realise</span></div></div></div>';
+  }
+  var statRows = [{n:'Rida Tazi',p:100},{n:'Youssef Bennani',p:100},{n:'Nadia Ouali',p:95},{n:'Hiba Cherkaoui',p:93},{n:'Zineb Chraibi',p:88},{n:'Amine Zouaoui',p:82},{n:'Salma Idrissi',p:78},{n:'Mehdi Lahlou',p:60}].map(function(e){
+    var c=e.p>=90?'var(--green)':e.p>=70?'var(--warm)':'var(--red)';
+    var cls=e.p>=90?'g':e.p>=70?'w':'';
+    return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">'+e.n+'</span><span style="font-weight:700;color:'+c+'">'+e.p+'%</span></div><div class="pw"><div class="pb '+cls+'" style="width:'+e.p+'%;'+(e.p<70?'background:var(--red)':'')+'"></div></div></div>';
+  }).join('');
+  return tabs+'<div class="stats"><div class="stat"><div class="stat-label">Taux presence</div><div class="stat-val" style="color:var(--green)">91%</div></div><div class="stat"><div class="stat-label">Absences</div><div class="stat-val" style="color:var(--red)">15</div></div><div class="stat"><div class="stat-label">Rattrapages realises</div><div class="stat-val" style="color:var(--blue)">11</div></div><div class="stat"><div class="stat-label">Seances totales</div><div class="stat-val">178</div></div></div><div class="card"><div class="ch"><div class="ct">Presence par eleve (octobre)</div></div><div class="cb">'+statRows+'</div></div>';
+}};
+
+PAGES.rattrapages = {title:'Gestion des rattrapages',sub:'Sessions de rattrapage - absences non compensees',action:'+ Planifier rattrapage',html:function(){
+  var rows = D.rattrapages.map(function(r){
+    var action='';
+    if(r.statut==='non planifie') action='<button class="btn btn-primary btn-sm" onclick="alert(\'Planifier rattrapage\')">Planifier</button>';
+    else if(r.statut==='planifie') action='<button class="btn btn-sm" style="background:var(--green-l);color:var(--green);border:none" onclick="alert(\'Marque realise\')">Marquer realise</button>';
+    else action='<span style="font-size:11px;color:var(--green)">Realise</span>';
+    return '<tr><td><strong>'+r.eleve+'</strong></td><td>'+pill(r.mat)+'</td><td style="color:var(--muted)">'+r.prof+'</td><td style="color:var(--muted);font-size:12px">'+r.date_abs+'</td><td style="font-size:12px">'+(r.date_ratt||'&mdash;')+'</td><td style="font-size:12px">'+(r.h?r.h+' &middot; '+r.dur:'&mdash;')+'</td><td>'+sBadge(r.statut)+'</td><td>'+action+'</td></tr>';
+  }).join('');
+  var steps = [{n:'1',t:'Absence detectee',d:"L'eleve est marque absent lors du pointage"},{n:'2',t:'Alerte direction',d:"Notification dans le tableau de bord"},{n:'3',t:'Planification',d:"Choisir date, heure et salle pour le rattrapage"},{n:'4',t:'Seance rattrapage',d:"Seance marquee Rattrapage dans le planning"},{n:'5',t:'Validation',d:"Marquer realise, historique conserve"}].map(function(s){return '<div style="flex:1;min-width:150px;padding:12px;border-right:1px solid var(--border-light)"><div style="width:24px;height:24px;border-radius:50%;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;margin-bottom:8px">'+s.n+'</div><div style="font-size:12px;font-weight:600;margin-bottom:4px">'+s.t+'</div><div style="font-size:11px;color:var(--muted)">'+s.d+'</div></div>';}).join('');
+  return '<div class="stats"><div class="stat"><div class="stat-label">Absences ce mois</div><div class="stat-val" style="color:var(--red)">15</div></div><div class="stat"><div class="stat-label">Rattrapages planifies</div><div class="stat-val" style="color:var(--blue)">2</div></div><div class="stat"><div class="stat-label">Rattrapages realises</div><div class="stat-val" style="color:var(--green)">1</div></div><div class="stat"><div class="stat-label">Non planifies</div><div class="stat-val" style="color:var(--warm)">1</div></div></div><div class="tc" style="margin-bottom:16px"><div class="tt"><div class="tt-title">Rattrapages ce mois</div><div style="display:flex;gap:6px"><span class="badge bb">2 planifies</span><span class="badge bg">1 realise</span><span class="badge bw">1 non planifie</span></div></div><div class="tw"><table><thead><tr><th>Eleve</th><th>Matiere</th><th>Prof</th><th>Date absence</th><th>Date rattrapage</th><th>Horaire</th><th>Statut</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div><div class="card"><div class="ch"><div class="ct">Processus de rattrapage</div></div><div class="cb"><div style="display:flex;gap:0;flex-wrap:wrap">'+steps+'</div></div></div>';
+}};
+
+PAGES.qr = {title:'QR Code - Pointage',sub:'Scan de presence eleves',action:'Imprimer QR codes',html:function(sub){
+  sub=sub||'pointage';
+  var tabs='<div class="tabs"><button class="tab '+(sub==='pointage'?'active':'')+'" onclick="go(\'qr\',null,\'pointage\')">Pointage</button><button class="tab '+(sub==='codes'?'active':'')+'" onclick="go(\'qr\',null,\'codes\')">QR Eleves</button></div>';
+  var qrSvg='<svg viewBox="0 0 80 80" width="80" height="80" style="margin:0 auto;display:block"><rect width="80" height="80" fill="white"/><rect x="5" y="5" width="30" height="30" fill="none" stroke="#0F172A" stroke-width="4"/><rect x="13" y="13" width="14" height="14" fill="#0F172A"/><rect x="45" y="5" width="30" height="30" fill="none" stroke="#0F172A" stroke-width="4"/><rect x="53" y="13" width="14" height="14" fill="#0F172A"/><rect x="5" y="45" width="30" height="30" fill="none" stroke="#0F172A" stroke-width="4"/><rect x="13" y="53" width="14" height="14" fill="#0F172A"/><rect x="45" y="45" width="6" height="6" fill="#0F172A"/><rect x="53" y="45" width="6" height="6" fill="#0F172A"/><rect x="61" y="45" width="6" height="6" fill="#0F172A"/><rect x="69" y="45" width="6" height="6" fill="#0F172A"/><rect x="45" y="53" width="6" height="6" fill="#0F172A"/><rect x="61" y="53" width="6" height="6" fill="#0F172A"/><rect x="45" y="61" width="6" height="6" fill="#0F172A"/><rect x="53" y="61" width="6" height="6" fill="#0F172A"/><rect x="69" y="61" width="6" height="6" fill="#0F172A"/><rect x="45" y="69" width="6" height="6" fill="#0F172A"/><rect x="61" y="69" width="6" height="6" fill="#0F172A"/><rect x="69" y="69" width="6" height="6" fill="#0F172A"/></svg>';
+  if(sub==='pointage'){
+    var plog='<div class="alert-row"><div class="adot g"></div><div style="flex:1"><div class="a-title">Rida Tazi &mdash; Math</div><div class="a-sub">09h02 &middot; QR scan</div></div><span class="badge bg">Present</span></div><div class="alert-row"><div class="adot g"></div><div style="flex:1"><div class="a-title">Nadia Ouali &mdash; SVT</div><div class="a-sub">10h28 &middot; QR scan</div></div><span class="badge bg">Present</span></div><div class="alert-row"><div class="adot g"></div><div style="flex:1"><div class="a-title">Youssef Bennani &mdash; Math</div><div class="a-sub">09h00 &middot; QR scan</div></div><span class="badge bg">Present</span></div><div class="alert-row"><div class="adot r"></div><div style="flex:1"><div class="a-title">Amine Zouaoui &mdash; Physique</div><div class="a-sub">14h00 &middot; Absent - rattrapage a planifier</div></div><span class="badge br">Absent</span></div>';
+    return tabs+'<div class="g2"><div class="card"><div class="ch"><div class="ct">Scanner QR eleve</div></div><div class="cb" style="text-align:center"><div style="background:var(--raised);border:2px dashed var(--border);border-radius:12px;padding:32px;margin-bottom:16px;cursor:pointer" onclick="simulateScan()"><div style="font-size:48px;margin-bottom:12px">&#x1F4F7;</div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Zone de scan</div><div style="font-size:12px;color:var(--muted)">Cliquer pour simuler un scan</div></div><div id="scan-result" style="display:none;background:var(--green-l);border:1px solid var(--green);border-radius:8px;padding:12px"><div style="font-size:14px;font-weight:700;color:var(--green)">Presence enregistree</div><div style="font-size:13px;margin-top:4px">Youssef Bennani &mdash; Math 09h00</div></div></div></div><div class="card"><div class="ch"><div class="ct">Pointages du jour</div></div><div class="cb">'+plog+'</div></div></div>';
+  }
+  var cards = D.eleves.slice(0,8).map(function(e){
+    return '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center"><div class="av av-p" style="width:40px;height:40px;font-size:14px;margin:0 auto 8px">'+ini(e.nom)+'</div><div style="font-size:13px;font-weight:700;margin-bottom:4px">'+e.nom+'</div><div style="font-size:11px;color:var(--muted);margin-bottom:12px">'+e.niveau+'</div>'+qrSvg+'<div style="font-size:10px;color:var(--muted);margin-top:8px">ID: EDU-'+String(e.id).padStart(4,'0')+'</div><button class="btn btn-secondary btn-sm" style="margin-top:8px;width:100%">Imprimer</button></div>';
+  }).join('');
+  return tabs+'<div class="tc"><div class="tt"><div class="tt-title">QR Codes eleves</div><button class="btn btn-secondary btn-sm">Imprimer tout</button></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;padding:16px">'+cards+'</div></div>';
+}};
+
+PAGES.paiements = {title:'Paiements + Impayes',sub:'Suivi mensuel - Octobre 2026',action:'+ Enregistrer paiement',html:function(){
+  var ok=D.paiements.filter(function(p){return p.statut==='paye';});
+  var enc=ok.reduce(function(a,p){return a+p.montant;},0);
+  var tot=D.paiements.reduce(function(a,p){return a+p.montant;},0);
+  var rows=D.paiements.map(function(p){
+    var act=p.statut!=='paye'?'<button class="btn btn-sm btn-primary" onclick="alert(\'Relance WhatsApp envoyee\')">Relancer</button> <button class="btn btn-sm" style="background:var(--green-l);color:var(--green);border:none" onclick="alert(\'Paiement enregistre\')">Encaisser</button>':'';
+    return '<tr><td><strong>'+p.eleve+'</strong></td><td class="r"><strong>'+p.montant+'</strong> MAD</td><td style="color:var(--muted);font-size:12px">'+p.mode+'</td><td>'+sBadge(p.statut)+'</td><td style="color:var(--muted);font-size:12px">'+p.date+'</td><td>'+act+'</td></tr>';
+  }).join('');
+  return '<div class="stats"><div class="stat"><div class="stat-label">Encaisse</div><div class="stat-val" style="color:var(--green)">'+enc.toLocaleString()+'</div><div class="stat-sub">MAD octobre</div></div><div class="stat"><div class="stat-label">Total du</div><div class="stat-val">'+tot.toLocaleString()+'</div><div class="stat-sub">MAD ce mois</div></div><div class="stat"><div class="stat-label">Impayes</div><div class="stat-val" style="color:var(--red)">'+D.paiements.filter(function(p){return p.statut==='impaye';}).reduce(function(a,p){return a+p.montant;},0).toLocaleString()+'</div><div class="stat-sub neg">MAD a recuperer</div></div><div class="stat"><div class="stat-label">Taux collecte</div><div class="stat-val" style="color:var(--accent)">'+Math.round(enc/tot*100)+'%</div><div class="stat-sub">'+ok.length+'/'+D.paiements.length+' eleves</div></div></div><div class="tc"><div class="tt"><div class="tt-title">Detail &mdash; Octobre 2026</div><button class="btn btn-secondary btn-sm">Exporter CSV</button></div><div class="tw"><table><thead><tr><th>Eleve</th><th class="r">Montant</th><th>Mode</th><th>Statut</th><th>Date</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}};
+
+PAGES.historique = {title:'Historique des paiements',sub:'Tous les paiements enregistres',action:'Exporter',html:function(){
+  var tot=D.historique.reduce(function(a,p){return a+p.montant;},0);
+  var modes=['Virement','Especes','Carte'].map(function(m){var n=D.historique.filter(function(p){return p.mode===m;}).length;return '<span style="font-size:12px;margin-right:8px"><strong>'+n+'</strong> '+m+'</span>';}).join('');
+  var rows=D.historique.map(function(p){return '<tr><td><strong>'+p.eleve+'</strong></td><td style="color:var(--muted)">'+p.mois+'</td><td class="r"><strong>'+p.montant+'</strong> MAD</td><td style="color:var(--muted);font-size:12px">'+p.mode+'</td><td style="color:var(--muted);font-size:12px">'+p.date+'</td><td>'+sBadge(p.statut)+'</td></tr>';}).join('');
+  return '<div class="filters"><input class="fi" type="text" placeholder="Rechercher un eleve..."><select class="fi" style="max-width:140px"><option>Tous les mois</option><option>Octobre 2026</option><option>Septembre 2026</option><option>Aout 2026</option></select><select class="fi" style="max-width:140px"><option>Tous modes</option><option>Virement</option><option>Especes</option><option>Carte</option></select></div><div class="stats" style="grid-template-columns:repeat(3,1fr)"><div class="stat"><div class="stat-label">Total encaisse (3 mois)</div><div class="stat-val" style="color:var(--green)">'+tot.toLocaleString()+' MAD</div></div><div class="stat"><div class="stat-label">Transactions</div><div class="stat-val">'+D.historique.length+'</div></div><div class="stat"><div class="stat-label">Modes de paiement</div><div class="stat-val" style="font-size:14px;padding-top:4px">'+modes+'</div></div></div><div class="tc"><div class="tt"><div class="tt-title">Historique complet</div><button class="btn btn-secondary btn-sm">Exporter CSV</button></div><div class="tw"><table><thead><tr><th>Eleve</th><th>Mois</th><th class="r">Montant</th><th>Mode</th><th>Date</th><th>Statut</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}};
+
+PAGES.rapports = {title:'Rapports avances',sub:'Bulletins de progression et analyses',action:'Generer tous (IA)',html:function(sub){
+  sub=sub||'liste';
+  var tabs='<div class="tabs"><button class="tab '+(sub==='liste'?'active':'')+'" onclick="go(\'rapports\',null,\'liste\')">Eleves</button><button class="tab '+(sub==='bulletin'?'active':'')+'" onclick="go(\'rapports\',null,\'bulletin\')">Bulletin exemple</button><button class="tab '+(sub==='centre'?'active':'')+'" onclick="go(\'rapports\',null,\'centre\')">Rapport centre</button></div>';
+  if(sub==='liste'){
+    var rows=D.eleves.filter(function(e){return e.statut==='actif';}).map(function(e){
+      var mc=e.moy>=15?'var(--green)':e.moy>=12?'var(--text)':'var(--red)';
+      var hasRap=Math.random()>.4;var sent=Math.random()>.5;
+      return '<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av av-p" style="font-size:10px">'+ini(e.nom)+'</div><strong>'+e.nom+'</strong></div></td><td><span class="badge bb">'+e.niveau+'</span></td><td><strong style="color:'+mc+'">'+e.moy+'/20</strong></td><td>'+(hasRap?'<span class="badge bg">Genere</span>':'<span class="badge bz">En attente</span>')+'</td><td>'+(sent?'<span class="badge ba">Envoye</span>':'<span class="badge bw">Non envoye</span>')+'</td><td style="display:flex;gap:4px"><button class="btn btn-secondary btn-sm" onclick="go(\'rapports\',null,\'bulletin\')">Voir</button><button class="btn btn-ghost btn-sm">Envoyer</button></td></tr>';
+    }).join('');
+    return tabs+'<div class="tc"><div class="tt"><div class="tt-title">Bulletins &mdash; Octobre 2026</div><button class="btn btn-primary btn-sm">Generer tous (IA)</button></div><div class="tw"><table><thead><tr><th>Eleve</th><th>Niveau</th><th>Moyenne</th><th>Rapport</th><th>Envoye parent</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+  }
+  if(sub==='bulletin'){
+    var mats=[{m:'Math',n:14.5,p:'+2.5',c:'Bonne progression sur les derivees. Fonctions composees a renforcer.'},{m:'Physique',n:13.0,p:'+1.0',c:'Niveau satisfaisant. Mecanique maitrisee. Chimie organique a approfondir.'},{m:'SVT',n:16.5,p:'+3.0',c:'Excellent travail. Genetique tres bien assimilee. Continuer ce rythme.'}].map(function(r){return '<div style="border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="display:flex;align-items:center;gap:8px">'+pill(r.m)+'<strong style="font-size:13px">'+r.m+'</strong></div><div style="display:flex;align-items:center;gap:12px"><span style="font-size:11px;color:var(--green);font-weight:600">'+r.p+'</span><span style="font-size:16px;font-weight:800;font-variant-numeric:tabular-nums">'+r.n+'/20</span></div></div><div class="pw" style="margin-bottom:6px"><div class="pb '+(r.n>=15?'g':'')+'" style="width:'+r.n/20*100+'%"></div></div><div style="font-size:11px;color:var(--muted);font-style:italic">'+r.c+'</div></div>';}).join('');
+    return tabs+'<div style="max-width:700px"><div class="card"><div class="cb"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px"><div><div style="font-size:18px;font-weight:800;font-family:Syne,sans-serif">Youssef Bennani</div><div style="font-size:13px;color:var(--muted)">2 BAC Sciences &middot; Prof. M. Chakir</div></div><div style="text-align:right"><div style="font-size:12px;font-weight:600;color:var(--accent)">BULLETIN MENSUEL</div><div style="font-size:12px;color:var(--muted)">Octobre 2026</div></div></div><div style="display:flex;gap:12px;margin-bottom:16px"><div style="flex:1;background:var(--raised);border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--green)">14.7</div><div style="font-size:11px;color:var(--muted)">Moyenne generale</div></div><div style="flex:1;background:var(--raised);border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--blue)">8/8</div><div style="font-size:11px;color:var(--muted)">Presences</div></div><div style="flex:1;background:var(--raised);border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--accent)">+2.1</div><div style="font-size:11px;color:var(--muted)">Progression</div></div></div><hr class="div">'+mats+'<div style="background:var(--accent-l);border-radius:6px;padding:14px;margin-top:10px"><div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Commentaire general</div><div style="font-size:13px;line-height:1.7">Youssef montre une progression constante ce mois. Son assiduite exemplaire (8/8 seances) porte ses fruits en SVT. Renforcer les exercices de Physique-Chimie. Excellent mois.</div></div><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="btn btn-secondary">Modifier</button><button class="btn btn-primary" onclick="alert(\'Rapport envoye a Abdelkader Bennani\')">Envoyer au parent</button></div></div></div></div>';
+  }
+  var indics=[{l:'Eleves actifs',v:'34 / 500 (Plan Pro)',ok:true},{l:'Taux fidelisation',v:'92% mois/mois',ok:true},{l:'Taux presence moyen',v:'91%',ok:true},{l:'Delai paiement moyen',v:'2.4 jours',ok:true},{l:'Taux recouvrement',v:'74%',ok:false},{l:'Rattrapages en attente',v:'1 non planifie',ok:false}].map(function(i){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-light)"><span style="font-size:13px">'+i.l+'</span><span style="font-size:13px;font-weight:600;color:'+(i.ok?'var(--green)':'var(--warm)')+'">'+i.v+'</span></div>';}).join('');
+  var mPerf=[{m:'Math',avg:13.8},{m:'Physique',avg:12.4},{m:'SVT',avg:14.9},{m:'Français',avg:13.1},{m:'Arabe',avg:14.2},{m:'Anglais',avg:12.8}].map(function(r){return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">'+r.m+'</span><span style="font-weight:700">'+r.avg+'/20</span></div><div class="pw"><div class="pb '+(r.avg>=15?'g':r.avg>=13?'b':'w')+'" style="width:'+r.avg/20*100+'%"></div></div></div>';}).join('');
+  return tabs+'<div class="g2"><div class="card"><div class="ch"><div class="ct">Performance par matiere</div></div><div class="cb">'+mPerf+'</div></div><div class="card"><div class="ch"><div class="ct">Indicateurs centre</div></div><div class="cb">'+indics+'</div></div></div>';
+}};
+
+PAGES.ia = {title:'Assistant IA',sub:'Rapports, plans de cours, relances',action:null,html:function(sub){
+  sub=sub||'chat';
+  var tabs='<div class="tabs"><button class="tab '+(sub==='chat'?'active':'')+'" onclick="go(\'ia\',null,\'chat\')">Assistant</button><button class="tab '+(sub==='plan'?'active':'')+'" onclick="go(\'ia\',null,\'plan\')">Plan de cours</button><button class="tab '+(sub==='analyse'?'active':'')+'" onclick="go(\'ia\',null,\'analyse\')">Analyse eleves</button></div>';
+  if(sub==='chat'){
+    return tabs+'<div class="g2"><div class="card"><div class="ch"><div class="ct">Chat pedagogique</div></div><div class="cb"><div class="chat-msgs" id="chat-msgs"><div class="chat-msg"><div class="av av-p" style="flex-shrink:0">IA</div><div class="bubble">Bonjour Khalid ! Je peux generer des rapports, creer des plans de cours, analyser les progressions ou rediger des relances. Comment puis-je vous aider ?</div></div><div class="chat-msg u"><div class="av av-m" style="flex-shrink:0">KA</div><div class="bubble">Genere le rapport d\'Youssef Bennani pour octobre</div></div><div class="chat-msg"><div class="av av-p" style="flex-shrink:0">IA</div><div class="bubble">Rapport genere pour Youssef Bennani &mdash; Octobre 2026.<br><br><strong>Resume :</strong> 8/8 presences. Math 14.5/20 (+2.5). Physique 13/20 (+1). SVT 16.5/20 (+3).<br><br>Voulez-vous l\'envoyer a Abdelkader Bennani ?</div></div></div><div class="chat-in-row"><input class="chat-in" id="chat-input" placeholder="Ex: redigez les relances pour les impayes d\'octobre..." onkeydown="if(event.key===\'Enter\')sendChat()"><button class="btn btn-primary" onclick="sendChat()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div><div><div class="card" style="margin-bottom:16px"><div class="ch"><div class="ct">Actions rapides</div></div><div class="cb" style="display:flex;flex-direction:column;gap:8px"><button class="btn btn-secondary" style="justify-content:flex-start" onclick="ins(\'Genere les bulletins de tous les eleves actifs pour octobre 2026\')">Generer tous les bulletins</button><button class="btn btn-secondary" style="justify-content:flex-start" onclick="ins(\'Identifie les eleves en difficulte ce mois-ci\')">Eleves en difficulte</button><button class="btn btn-secondary" style="justify-content:flex-start" onclick="ins(\'Cree un plan de revision BAC 2026 pour Youssef Bennani\')">Plan revision BAC</button><button class="btn btn-secondary" style="justify-content:flex-start" onclick="ins(\'Redige les relances WhatsApp pour les impayes d\'octobre\')">Relances paiement</button><button class="btn btn-secondary" style="justify-content:flex-start" onclick="ins(\'Analyse les rattrapages manquants\')">Plan de rattrapages</button></div></div><div class="card"><div class="ch"><div class="ct">Usage IA ce mois</div></div><div class="cb"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:13px"><span>Rapports generes</span><strong>28</strong></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:13px"><span>Plans de cours crees</span><strong>14</strong></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:13px"><span>Relances redigees</span><strong>7</strong></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px"><span>Analyses de cohorte</span><strong>3</strong></div></div></div></div></div>';
+  }
+  if(sub==='plan'){
+    var opts=D.eleves.map(function(e){return '<option>'+e.nom+'</option>';}).join('');
+    var steps=[{t:'Introduction (10 min)',d:'Revision rapide cours precedent. QCM oral 5 questions sur les derivees.'},{t:'Exercices guides (40 min)',d:'Exercices type BAC sur fonctions composees. Tracer f\'(x) et etudier les variations.'},{t:'Travail autonome (30 min)',d:"4 exercices progressifs. L'eleve travaille seul, validation a chaque etape."},{t:'Bilan & devoirs (10 min)',d:'Correction rapide. Devoir : exercices 3 et 4 p.87 pour la prochaine seance.'}].map(function(s,i){return '<div style="display:flex;gap:12px;margin-bottom:10px"><div style="width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">'+(i+1)+'</div><div><div style="font-size:13px;font-weight:600">'+s.t+'</div><div style="font-size:12px;color:var(--muted);margin-top:2px">'+s.d+'</div></div></div>';}).join('');
+    return tabs+'<div class="card" style="max-width:680px"><div class="ch"><div class="ct">Generation de plan de cours</div><button class="btn btn-primary btn-sm">Generer</button></div><div class="cb"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px"><div><label style="font-size:12px;font-weight:500;color:var(--muted);display:block;margin-bottom:4px">Eleve</label><select class="fi"><option>Youssef Bennani</option>'+opts+'</select></div><div><label style="font-size:12px;font-weight:500;color:var(--muted);display:block;margin-bottom:4px">Matiere</label><select class="fi"><option>Math</option><option>Physique</option><option>SVT</option><option>Français</option><option>Arabe</option><option>Anglais</option></select></div><div><label style="font-size:12px;font-weight:500;color:var(--muted);display:block;margin-bottom:4px">Duree</label><select class="fi"><option>1h00</option><option>1h30</option><option>2h00</option></select></div><div><label style="font-size:12px;font-weight:500;color:var(--muted);display:block;margin-bottom:4px">Objectif</label><select class="fi"><option>Revision chapitre</option><option>Exercices pratiques</option><option>Preparation controle</option><option>Rattrapage</option></select></div></div><div style="background:var(--accent-l);border-radius:8px;padding:16px"><div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:12px">Plan genere &mdash; Youssef Bennani / Math / 1h30</div>'+steps+'</div></div></div>';
+  }
+  var rec=[{t:'Contacter la famille Lahlou',d:'Mehdi est en decrochage scolaire et financier. Entretien recommande cette semaine.',p:'urgent'},{t:'Seances supplementaires Physique',d:'Omar El Fassi : ajouter une seance hebdomadaire de Physique le mercredi.',p:'normal'},{t:'Bilan pedagogique Zouaoui',d:'Proposer un bilan avec M. Chakir pour Amine.',p:'normal'},{t:'Feliciter Rida Tazi',d:'Envoyer message de felicitations au parent pour 18/20 en Math.',p:'info'}].map(function(r){return '<div style="padding:10px 12px;border:1px solid var(--border);border-radius:6px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span class="badge '+(r.p==='urgent'?'br':r.p==='info'?'bg':'bw')+'">'+r.p+'</span><strong style="font-size:13px">'+r.t+'</strong></div><div style="font-size:12px;color:var(--muted)">'+r.d+'</div></div>';}).join('');
+  return tabs+'<div class="g2"><div class="card"><div class="ch"><div class="ct">Eleves a surveiller</div></div><div class="cb"><div class="alert-row"><div class="adot r"></div><div><div class="a-title">Mehdi Lahlou &mdash; Moy. 9.5/20</div><div class="a-sub">Decrochage Math & SVT &middot; 3 absences non justifiees &middot; Paiement impaye</div></div></div><div class="alert-row"><div class="adot w"></div><div><div class="a-title">Omar El Fassi &mdash; Moy. 11.5/20</div><div class="a-sub">Difficultes Physique &middot; Seances supplementaires recommandees</div></div></div><div class="alert-row"><div class="adot w"></div><div><div class="a-title">Amine Zouaoui &mdash; Stagnation</div><div class="a-sub">Pas de progression ce mois &middot; Revoir methode de travail</div></div></div><hr class="div"><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:8px">Eleves en progression</div><div class="alert-row"><div class="adot g"></div><div><div class="a-title">Rida Tazi &mdash; 18/20 en Math</div><div class="a-sub">+4 points ce mois &middot; Niveau BAC atteint</div></div></div><div class="alert-row"><div class="adot g"></div><div><div class="a-title">Nadia Ouali &mdash; 17.5/20</div><div class="a-sub">Excellente eleve &middot; Envisager prepa grande ecole</div></div></div></div></div><div class="card"><div class="ch"><div class="ct">Recommandations IA</div></div><div class="cb">'+rec+'</div></div></div>';
+}};
+
+function go(name, btn, sub){
+  var p=PAGES[name];
+  if(!p) return;
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn) btn.classList.add('active');
+  else document.querySelectorAll('.nav-btn').forEach(function(b){if(b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+name+"'")>-1)b.classList.add('active');});
+  document.getElementById('pg-title').textContent=p.title;
+  document.getElementById('pg-sub').textContent=p.sub;
+  var ta=document.getElementById('pg-action');
+  if(p.action){ta.textContent=p.action;ta.style.display='';}else ta.style.display='none';
+  document.getElementById('page-content').innerHTML=p.html(sub);
+}
+
+function pgAction(){alert('Formulaire - a connecter au backend');}
+
+function sendChat(){
+  var inp=document.getElementById('chat-input');
+  var msgs=document.getElementById('chat-msgs');
+  if(!inp||!msgs||!inp.value.trim()) return;
+  var v=inp.value.trim(); inp.value='';
+  msgs.innerHTML+='<div class="chat-msg u"><div class="av av-m" style="flex-shrink:0">KA</div><div class="bubble">'+v+'</div></div>';
+  setTimeout(function(){
+    var replies=['Rapport genere avec succes. Voulez-vous l\'envoyer au parent ?','Analyse terminee. Voici les points cles identifies pour ce mois.','Plan de cours cree - 4 sequences pedagogiques adaptees.','Relances WhatsApp redigees pour les 3 eleves impayes.','Rattrapages identifies : 2 a planifier, 1 non justifie en urgence.'];
+    var r=replies[Math.floor(Math.random()*replies.length)];
+    msgs.innerHTML+='<div class="chat-msg"><div class="av av-p" style="flex-shrink:0">IA</div><div class="bubble">'+r+'</div></div>';
+    msgs.scrollTop=msgs.scrollHeight;
+  },700);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function ins(t){var i=document.getElementById('chat-input');if(i){i.value=t;i.focus();}}
+
+function simulateScan(){
+  var r=document.getElementById('scan-result');
+  if(r){r.style.display='block';setTimeout(function(){r.style.display='none';},3000);}
+}
+
+go('dash',null);
+</script>
